@@ -1,5 +1,18 @@
 Rails.application.routes.draw do
-  resource :session
+  # Users
+  get "/signup", to: "users#new", as: :signup
+  resources :users, only: [ :create ]
+
+  # Verification
+  get "/verify-account", to: "verification#verify_account"
+  get "/send-verification", to: "verification#index"
+  post "/send-verification", to: "verification#send_verification_email"
+
+  # Session
+  resource :session, only: [ :create, :destroy ]
+  get "/login", to: "sessions#new", as: :login
+
+  # Password
   resources :passwords, param: :token
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
@@ -12,5 +25,5 @@ Rails.application.routes.draw do
   # get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
 
   # Defines the root path route ("/")
-  # root "posts#index"
+  root "home#index"
 end

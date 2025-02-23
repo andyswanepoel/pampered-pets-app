@@ -1,12 +1,14 @@
 <!DOCTYPE html>
 <html>
-  <head>
+
+<head>
     <title><%= content_for(:title) || "Paws Booking App" %></title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="mobile-web-app-capable" content="yes">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
+
 
     <%= yield :head %>
 
@@ -20,11 +22,37 @@
     <%# Includes all stylesheet files in app/assets/stylesheets %>
     <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
-  </head>
+</head>
 
-  <body>
+<body>
+    <header class="bg-white shadow-md" data-controller="menu">
+        <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+            <div>
+                <%= link_to "MyApp", root_path, class: "text-xl font-bold text-gray-900" %>
+            </div>
+
+            <div class="hidden md:flex space-x-4">
+                <%= link_to "Log In", login_path, class: "px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600" %>
+                <%= link_to "Sign Up", signup_path,  class: "px-4 py-2 text-gray-700 hover:text-gray-900 border-solid border-1 rounded border-gray-400" %>
+            </div>
+
+            <button class="md:hidden text-gray-700 focus:outline-none" data-action="click->menu#toggle">
+                ☰
+            </button>
+        </div>
+
+        <!-- Mobile Menu (Hidden by Default) -->
+        <div class="hidden md:hidden bg-white border-t border-gray-400 px-4 py-2 space-y-2" data-menu-target="menu">
+            <%= link_to "Log In", login_path, class: "block bg-blue-500 text-white py-2 rounded text-center" %>
+            <%= link_to "Sign Up", signup_path, class: "block text-gray-700 py-2 rounded text-center border-solid border-1 rounded border-gray-400" %>
+        </div>
+    </header>
+
     <main class="container mx-auto mt-28 px-5 flex">
-      <%= yield %>
+
+
+        <%= yield %>
     </main>
-  </body>
+</body>
+
 </html>
