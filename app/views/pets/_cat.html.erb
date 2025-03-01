@@ -1,0 +1,10 @@
+<fieldset data-pet-form-target="petTypeAdditionalFormField" data-pet="Cat" class="contents">
+
+    <div class=" my-5">
+        <%= form.label :environment, 'Is your cat an indoor or outdoor cat?' %>
+        <%= form.select :environment, 
+            Cat.environments.keys.map  { |environment| [environment.humanize, environment] }, 
+            { prompt: 'Please select an option'},
+            class: "block shadow-sm rounded-md border px-3 py-2 mt-2 w-full border-gray-400 focus:outline-blue-600" %>
+    </div>
+</fieldset>

@@ -32,8 +32,12 @@
             </div>
 
             <div class="hidden md:flex space-x-4">
+                <%if is_authenticated? %>
+                <%= link_to "Log Out", logout_path, class: "px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600" %>
+                <% else %>
                 <%= link_to "Log In", login_path, class: "px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600" %>
                 <%= link_to "Sign Up", signup_path,  class: "px-4 py-2 text-gray-700 hover:text-gray-900 border-solid border-1 rounded border-gray-400" %>
+                <% end %>
             </div>
 
             <button class="md:hidden text-gray-700 focus:outline-none" data-action="click->menu#toggle">
@@ -43,8 +47,12 @@
 
         <!-- Mobile Menu (Hidden by Default) -->
         <div class="hidden md:hidden bg-white border-t border-gray-400 px-4 py-2 space-y-2" data-menu-target="menu">
+            <%if is_authenticated? %>
+            <%= link_to "Log Out", logout_path, class: "block bg-blue-500 text-white py-2 rounded text-center"  %>
+            <% else %>
             <%= link_to "Log In", login_path, class: "block bg-blue-500 text-white py-2 rounded text-center" %>
             <%= link_to "Sign Up", signup_path, class: "block text-gray-700 py-2 rounded text-center border-solid border-1 rounded border-gray-400" %>
+            <% end %>
         </div>
     </header>
 

@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :pets
   # Users
   get "/signup", to: "users#new", as: :signup
   resources :users, only: [ :create ]
@@ -9,8 +10,9 @@ Rails.application.routes.draw do
   post "/send-verification", to: "verification#send_verification_email"
 
   # Session
-  resource :session, only: [ :create, :destroy ]
+  resource :session, only: [ :create ]
   get "/login", to: "sessions#new", as: :login
+  get "/logout", to: "sessions#destroy", as: :logout
 
   # Password
   resources :passwords, param: :token

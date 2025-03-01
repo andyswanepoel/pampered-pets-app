@@ -1,5 +1,6 @@
 class HomeController < ApplicationController
-  skip_before_action :require_authentication
+  allow_unauthenticated_access
+  before_action :resume_session
   def index
   end
 end

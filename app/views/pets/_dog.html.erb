@@ -1,0 +1,13 @@
+<fieldset data-pet-form-target="petTypeAdditionalFormField" data-pet="Dog" class="contents">
+    <div class="my-5">
+        <%= form.label :breed %>
+        <%= form.text_field :breed, class: "block shadow-sm rounded-md border px-3 py-2 mt-2 w-full border-gray-400 focus:outline-blue-600" %>
+    </div>
+    <div class="my-5">
+        <%= form.label :activity_level, "How active is your dog?"%>
+        <%= form.select :activity_level, 
+            Dog.activity_levels.keys.map  { |activity_level| [activity_level.humanize, activity_level] }, 
+            { prompt: 'Select the activity level of your dog'},
+            class: "block shadow-sm rounded-md border px-3 py-2 mt-2 w-full border-gray-400 focus:outline-blue-600" %>
+    </div>
+</fieldset>

@@ -1,0 +1,59 @@
+<%= form_with(model: pet, class: "contents") do |form| %>
+<% if pet.errors.any? %>
+<div id="error_explanation" class="bg-red-50 text-red-500 px-3 py-2 font-medium rounded-md mt-3">
+    <h2><%= pluralize(pet.errors.count, "error") %> prohibited this pet from being saved:</h2>
+
+    <ul class="list-disc ml-6">
+        <% pet.errors.each do |error| %>
+        <li><%= error.full_message %></li>
+        <% end %>
+    </ul>
+</div>
+<% end %>
+
+<div data-controller="pet-form">
+    <div class="my-5">
+        <%= form.label :pettable_type, 'What type of pet are you adding?'%>
+        <%= form.select :pettable_type, @pettable_types.map { |type| [type, type] },
+    { prompt: 'Please select an option' },
+    'data-pet-form-target' => 'petTypeSelect',
+    'data-action' => 'pet-form#showAdditionalPetInfo',
+    class: "form-control", id: "pettable_type_select", class: ["block shadow-sm rounded-md border px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-blue-600": pet.errors[:pettable_id].none?, "border-red-400 focus:outline-red-600": pet.errors[:pettable_id].any?}] %>
+    </div>
+
+    <div class="my-5">
+        <%= form.label :name %>
+        <%= form.text_field :name, class: ["block shadow-sm rounded-md border px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-blue-600": pet.errors[:name].none?, "border-red-400 focus:outline-red-600": pet.errors[:name].any?}] %>
+    </div>
+
+    <div class="my-5">
+        <%= form.label :age %>
+        <%= form.number_field :age, class: ["block shadow-sm rounded-md border px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-blue-600": pet.errors[:age].none?, "border-red-400 focus:outline-red-600": pet.errors[:age].any?}] %>
+    </div>
+
+    <div class="my-5">
+        <%= form.label :sex, 'What\'s the sex of your pet?' %>
+        <%= form.select :sex, 
+            Pet.sexes.keys.map { |sex| [sex.humanize, sex] }, 
+            { prompt: 'Please select an option' }, 
+            { class: ["block shadow-sm rounded-md border px-3 py-2 mt-2 w-full",
+              pet.errors[:sex].none? ? "border-gray-400 focus:outline-blue-600" : "border-red-400 focus:outline-red-600"
+             ].compact.join(" ") } %>
+    </div>
+
+
+    <div class="my-5">
+        <%= form.label :date_of_birth %>
+        <%= form.date_field :date_of_birth, class: ["block shadow-sm rounded-md border px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-blue-600": pet.errors[:age].none?, "border-red-400 focus:outline-red-600": pet.errors[:age].any?}] %>
+    </div>
+
+
+    <%= render  partial: "dog", locals: { form: form } %>
+    <%= render  partial: "cat", locals: { form: form } %>
+
+</div>
+
+<div class="inline">
+    <%= form.submit class: "rounded-md px-3.5 py-2.5 bg-blue-600 hover:bg-blue-500 text-white inline-block font-medium cursor-pointer" %>
+</div>
+<% end %>

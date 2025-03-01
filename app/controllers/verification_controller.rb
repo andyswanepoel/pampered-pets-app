@@ -1,5 +1,5 @@
 class VerificationController < ApplicationController
-  skip_before_action :require_authentication
+  allow_unauthenticated_access
   before_action :set_user_by_token, only: %i[ verify_account ]
 
   def index
