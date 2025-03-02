@@ -1,18 +1,34 @@
 <div id="<%= dom_id pet %>" class="my-5 space-y-5">
-  <div>
-    <strong class="block font-medium mb-1">Pettable:</strong>
-    <%= pet.pettable_id %>
-  </div>
-  <div>
-    <strong class="block font-medium mb-1">Name:</strong>
-    <%= pet.name %>
-  </div>
-  <div>
-    <strong class="block font-medium mb-1">Age:</strong>
-    <%= pet.age %>
-  </div>
-  <div>
-    <strong class="block font-medium mb-1">Sex:</strong>
-    <%= pet.sex %>
-  </div>
+    <div>
+        <strong class="block font-medium mb-1">Pet Type:</strong>
+        <%= pet.pettable_type %>
+    </div>
+    <div>
+        <strong class="block font-medium mb-1">Name:</strong>
+        <%= pet.name %>
+    </div>
+    <div>
+        <strong class="block font-medium mb-1">Date of Birth:</strong>
+        <%= pet.date_of_birth %>
+    </div>
+    <div>
+        <strong class="block font-medium mb-1">Sex:</strong>
+        <%= pet.sex.capitalize %>
+    </div>
+    <% if pet.pettable_type == "Dog"%>
+    <div>
+        <strong class="block font-medium mb-1">Breed</strong>
+        <%=  pet.pettable.breed.titleize %>
+    </div>
+    <div>
+        <strong class="block font-medium mb-1">Activity Level</strong>
+        <%= pet.pettable.activity_level.capitalize %>
+    </div>
+    <% end %>
+    <% if pet.pettable_type == "Cat"%>
+    <div>
+        <strong class="block font-medium mb-1">Preferred Environment</strong>
+        <%= underscore_to_slash(pet.pettable.environment).titleize %>
+    </div>
+    <% end %>
 </div>
