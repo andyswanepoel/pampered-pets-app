@@ -39,6 +39,7 @@ class PetsController < ApplicationController
     if pettable&.save
        @pet = Current.user.pets.build(pettable_id: pettable.id, **pet_params.except(:pettable_params))
       if @pet.save
+        @pet.image.attach(pet_params[:image])
         redirect_to @pet, notice: "Pet created successfully!"
       else
         render :new
@@ -88,7 +89,7 @@ class PetsController < ApplicationController
       pettable_type = params.dig(:pet, :pettable_type)
       pettable_params = PETTABLE_PARAMS[pettable_type] || []
 
-      params.require(:pet).permit(:pettable_type, :name, :date_of_birth, :sex,
+      params.require(:pet).permit(:pettable_type, :name, :date_of_birth, :sex, :image,
                                   pettable_params: pettable_params)
     end
 end

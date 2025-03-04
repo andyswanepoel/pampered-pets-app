@@ -1,11 +1,50 @@
-<div>
-    <% if alert = flash[:alert] %>
-    <p class="py-2 px-3 bg-red-50 mb-5 text-red-500 font-medium rounded-lg inline-block" id="alert"><%= alert %></p>
-    <% end %>
+    <div class="w-full">
+        <% if alert = flash[:alert] %>
+        <p class="py-2 px-3 bg-red-50 mb-5 text-red-500 font-medium rounded-lg inline-block" id="alert"><%= alert %></p>
+        <% end %>
 
-    <% if notice = flash[:notice] %>
-    <p class="py-2 px-3 bg-green-50 mb-5 text-green-500 font-medium rounded-lg inline-block" id="notice"><%= notice %></p>
-    <% end %>
-    <h1 class="font-bold text-4xl">Home Page</h1>
-    <p>Find me in app/views/home/index.html.erb</p>
-</div>
+        <% if notice = flash[:notice] %>
+        <p class="py-2 px-3 bg-green-50 mb-5 text-green-500 font-medium rounded-lg inline-block" id="notice"><%= notice %></p>
+        <% end %>
+        <section class="bg-gray-100 py-12 px-6 lg:px-12">
+            <div class="container mx-auto flex flex-col md:flex-row items-center">
+                <div class="md:w-1/2 text-left md:pr-12">
+                    <h3 class="text-3xl font-bold text-gray-800">Stress-Free Pet Boarding</h3>
+                    <p class="mt-4 text-gray-700 leading-relaxed">Book a cozy and safe stay for your pets while you're away. Trusted by pet lovers.</p>
+                </div>
+                <div class="md:w-1/2 mt-6 md:mt-0">
+                    <img src="https://placehold.co/500x300?text=Happy+Pets" alt="Happy pets" class="rounded-lg shadow-lg mx-auto">
+                </div>
+            </div>
+        </section>
+
+        <!-- About Us -->
+        <section class="mx-auto px-6 py-12">
+            <div class="container flex flex-col md:flex-row items-center">
+                <div class="md:w-1/2">
+                    <img src="https://placehold.co/500x300?text=Pet+Care" alt="Pet care" class="rounded-lg shadow-lg mx-auto">
+                </div>
+                <div class="md:w-1/2 md:pl-12 mt-0 mb-6 text-left order-first md:order-none md:mb-0">
+                    <h3 class="text-3xl font-bold text-gray-800">About Us</h3>
+                    <p class="mt-4 text-gray-700 leading-relaxed">
+                        At PetApp, we provide a home away from home for your furry friends. Our experienced team ensures a loving and stress-free experience for all pets.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="bg-gray-800 text-gray-300 text-sm py-6 mt-12">
+            <div class="container mx-auto px-6 flex flex-col md:flex-row justify-between">
+                <p>&copy;2025 PetApp. All rights reserved.</p>
+                <div class="flex space-x-4">
+                    <%
+=begin%>
+                    <a href="#" class="hover:text-white">Privacy Policy</a>
+                    <a href="#" class="hover:text-white">Terms of Service</a>
+                    <%
+=end%>
+                </div>
+            </div>
+        </footer>
+    </div>
