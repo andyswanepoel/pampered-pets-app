@@ -1,5 +1,9 @@
 Rails.application.routes.draw do
   resources :pets
+
+  # Dashboard
+  get "/dashboard", to: "dashboard#index", as: :dashboard
+
   # Users
   get "/signup", to: "users#new", as: :signup
   resources :users, only: [ :create ]

@@ -1,5 +1,5 @@
 <fieldset data-pet-form-target="petTypeAdditionalFormField" data-pet="Cat" class="contents" hidden>
-    <%= form.fields_for :pettable_params, Cat.new do |cat_fields| %>
+    <%= form.fields_for :pettable_params, @pet.pettable || Cat.new do |cat_fields| %>
     <div class=" my-5">
         <%= cat_fields.label :environment, 'Is your cat an indoor or outdoor cat?' %>
         <%= cat_fields.select :environment, 

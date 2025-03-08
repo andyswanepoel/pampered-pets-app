@@ -12,7 +12,16 @@
 <% end %>
 
 <div data-controller="pet-form">
-    <div class="my-5">
+    <%if @pet.pettable.present? %>
+    <div class="my-5 relative w-fit">
+        <%= image_tag @pet.image.variant(:profile), alt: @pet.name, class: "w-60 h-60 rounded object-cover mb-0 " %>
+        <%= form.label :image, "Update image", class: "absolute bottom-0 right-0 rounded-md px-3.5 py-2.5 bg-blue-600 hover:bg-blue-500 text-white inline-block font-medium cursor-pointer" %>
+        <%= form.file_field :image, class:"hidden" %>
+    </div>
+    <%end%>
+
+
+    <div class="my-5 <%= "hidden" if @pet.pettable.present? %>">
         <%= form.label :pettable_type, 'What type of pet are you adding?'%>
         <%= form.select :pettable_type, @pettable_types.map { |type| [type, type] },
     { prompt: 'Please select an option' },
@@ -26,11 +35,12 @@
         <%= form.text_field :name, class: ["block shadow-sm rounded-md border px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-blue-600": pet.errors[:name].none?, "border-red-400 focus:outline-red-600": pet.errors[:name].any?}] %>
     </div>
 
+    <%unless @pet.pettable.present? %>
     <div class="my-5">
         <%= form.label :image %>
         <%= form.file_field :image, class: ["block shadow-sm rounded-md border px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-blue-600": pet.errors[:name].none?, "border-red-400 focus:outline-red-600": pet.errors[:name].any?}] %>
-
     </div>
+    <%end%>
 
     <div class="my-5">
         <%= form.label :sex, 'What\'s the sex of your pet?' %>
@@ -47,11 +57,17 @@
         <%= form.label :date_of_birth %>
         <%= form.date_field :date_of_birth, class: ["block shadow-sm rounded-md border px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-blue-600": pet.errors[:age].none?, "border-red-400 focus:outline-red-600": pet.errors[:age].any?}] %>
     </div>
-
-
-    <%= render partial: "dog", locals: { form: form } %>
-    <%= render partial: "cat", locals: { form: form } %>
-
+    <% if @pet.pettable.present? %>
+    <% case @pet.pettable_type %>
+    <%  when "Dog" %>
+    <%= render partial: "dog_form", locals: { form: form } %>
+    <%  when "Cat" %>
+    <%= render partial: "cat_form", locals: { form: form } %>
+    <%end %>
+    <% else %>
+    <%= render partial: "dog_form", locals: { form: form } %>
+    <%= render partial: "cat_form", locals: { form: form } %>
+    <%end%>
 </div>
 
 <div class="inline">

@@ -1,0 +1,30 @@
+<section class="py-12 px-6 lg:px-12">
+    <div class="container mx-auto">
+        <p class="font-bold text-4xl">Welcome back, <%= @user.first_name %>!</p>
+    </div>
+</section>
+<div class="py-0 px-6 md:py-12 lg:px-12">
+    <div class="container mx-auto flex flex-col md:flex-row">
+        <section class="py-12 md:w-1/2 md:py-0">
+            <h2 class="font-bold text-3xl mb-8">Your upcoming bookings</h2>
+        </section>
+        <section class="py-12 md:w-1/2 md:py-0">
+            <div class="flex items-center mb-8">
+                <h2 class="font-bold text-3xl">Your pets</h2>
+                <%= link_to "Add pet", new_pet_path, class: "ml-auto px-4 py-2 text-sm font-medium text-white bg-blue-500 rounded-lg hover:bg-blue-600 justify-self-end mt-0" %>
+            </div>
+            <% if @pets.any? %>
+            <div>
+                <%= render @pets.limit(2) %>
+            </div>
+            <% if @pets.length > 2 %>
+            <div class="mt-4 text-gray-500 text-center bg:white">
+                <%= link_to "See all your pets", pets_path, class: "px-4 py-2 text-gray-700 hover:text-gray-900 border-solid border-1 rounded border-gray-400 inline-block" %>
+            </div>
+            <% end %>
+            <% else %>
+            <p class="text-center my-10">No pets found.</p>
+            <% end %>
+        </section>
+    </div>
+</div>

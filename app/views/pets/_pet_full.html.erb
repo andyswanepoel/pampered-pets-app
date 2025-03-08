@@ -1,0 +1,20 @@
+<div>
+    <%= image_tag @pet.image.variant(:profile), alt: @pet.name, class: "w-60 h-60 rounded object-cover mb-0 mr-4" %>
+
+
+    <div class="my-5">
+        <p class="font-bold">Age</p>
+        <p> <%= time_difference_in_years_and_months @pet.date_of_birth %></p>
+    </div>
+    <div class="my-5">
+        <p class="font-bold">Sex</p>
+        <p><%= @pet.sex.capitalize %></p>
+    </div>
+
+    <% case @pet.pettable_type %>
+    <%  when "Dog" %>
+    <%= render "dog_full" %>
+    <%  when "Cat" %>
+    <%= render "cat_full" %>
+    <%end %>
+</div>

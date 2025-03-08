@@ -1,6 +1,7 @@
+require "uri"
 class PetsController < ApplicationController
   before_action :set_pet, only: %i[ show edit update destroy ]
-  before_action :set_pettable_types, only: %i[ new ]
+  before_action :set_pettable_types, only: %i[ new edit ]
 
   PETTABLE_PARAMS = {
     "Dog" => [ :breed, :activity_level ],
@@ -19,6 +20,7 @@ class PetsController < ApplicationController
   # GET /pets/new
   def new
     @pet = Pet.new
+    @referer_path = request.referer ? URI(request.referer.to_s).path : pets_path
   end
 
   # GET /pets/1/edit
@@ -53,7 +55,7 @@ class PetsController < ApplicationController
   # PATCH/PUT /pets/1 or /pets/1.json
   def update
     respond_to do |format|
-      if @pet.update(pet_params)
+      if  @pet.pettable.update(pet_params[:pettable_params]) and @pet.update(**pet_params.except(:pettable_params))
         format.html { redirect_to @pet, notice: "Pet was successfully updated." }
         format.json { render :show, status: :ok, location: @pet }
       else
@@ -76,7 +78,7 @@ class PetsController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_pet
-      @pet = Pet.find(params.expect(:id))
+      @pet = Pet.includes(:pettable).find(params.expect(:id))
     end
 
     def set_pettable_types
@@ -90,6 +92,6 @@ class PetsController < ApplicationController
       pettable_params = PETTABLE_PARAMS[pettable_type] || []
 
       params.require(:pet).permit(:pettable_type, :name, :date_of_birth, :sex, :image,
-                                  pettable_params: pettable_params)
+        pettable_params: pettable_params)
     end
 end

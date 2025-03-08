@@ -1,5 +1,5 @@
 <fieldset data-pet-form-target="petTypeAdditionalFormField" data-pet="Dog" class="contents" hidden>
-    <%= form.fields_for :pettable_params, Dog.new do |dog_fields| %>
+    <%= form.fields_for :pettable_params, @pet.pettable || Dog.new do |dog_fields| %>
     <div class="my-5">
         <%= dog_fields.label :breed %>
         <%= dog_fields.text_field :breed, class: "block shadow-sm rounded-md border px-3 py-2 mt-2 w-full border-gray-400 focus:outline-blue-600" %>
