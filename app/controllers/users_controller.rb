@@ -9,7 +9,7 @@ class UsersController < ApplicationController
     @user = User.new(user_params)
 
     if @user.save
-       VerificationMailer.verify_email(@user).deliver_later
+       VerificationMailer.with(user: @user).verify_email.deliver_later
       redirect_to login_path, notice: "Check your email to verify your account."
     else
       render :new, status: :unprocessable_entity

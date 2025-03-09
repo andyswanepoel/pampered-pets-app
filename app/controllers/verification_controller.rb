@@ -17,7 +17,7 @@ class VerificationController < ApplicationController
 
   def send_verification_email
     if user = User.find_by(email_address: params[:email_address])
-      VerificationMailer.verify_email(user).deliver_later
+      VerificationMailer.with(user: user).verify_email.deliver_later
     end
     redirect_to send_verification_path, notice: "Check your email to verify your account."
   end
