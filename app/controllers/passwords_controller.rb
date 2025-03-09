@@ -9,8 +9,7 @@ class PasswordsController < ApplicationController
     if user = User.find_by(email_address: params[:email_address])
       PasswordsMailer.with(user: user).reset.deliver_later
     end
-
-    redirect_to login_path, notice: "Password reset instructions sent (if user with that email address exists)."
+    redirect_to login_path, notice: "Password reset instructions sent."
   end
 
   def edit

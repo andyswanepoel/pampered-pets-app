@@ -1,0 +1,16 @@
+<% flash.each do |type, message| %>
+<% toast_type = case type.to_sym
+       when :notice then "bg-blue-500"
+       when :alert then "bg-red-500"
+       when :success then "bg-green-500"
+       else "bg-gray-800"
+     end %>
+
+<div id="toast" data-controller="toast" class="fixed top-5 right-0 bg-gray-800 text-white px-4 py-2 rounded-lg shadow-lg transform translate-x-full opacity-0 transition-all duration-500 flex items-center space-x-4 mr-4">
+
+    <p><%= message %></p>
+    <button data-action="click->toast#close" class="text-white bg-transparent border-none text-lg ml-4">
+        &times;
+    </button>
+</div>
+<% end %>
