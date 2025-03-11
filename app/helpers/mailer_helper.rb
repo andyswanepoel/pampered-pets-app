@@ -1,7 +1,7 @@
 module MailerHelper
   def list_items(list)
     if list.length < 3
-      list.join(", ")
+      list.join(" and ")
     else
       "#{list[0...-1].join(", ")}, and #{list[-1]}"
     end

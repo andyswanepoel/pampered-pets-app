@@ -8,11 +8,15 @@
         <section class="py-12 md:w-1/2 md:py-0">
             <div class="flex items-center mb-8">
                 <h2 class="font-bold text-3xl">Upcoming bookings</h2>
-                <%= link_to "Add booking", new_booking_path, class: "ml-auto px-4 py-2 text-sm font-medium text-white bg-blue-500 rounded-lg hover:bg-blue-600 justify-self-end mt-0" %>
+                <a title="Add a new booking" label="Add a new booking" href="<%= new_booking_path %>" class="inline-block ml-auto h-8 w-8 p-1 text-sm font-medium text-white bg-blue-500 rounded-full hover:bg-blue-600 mt-0">
+                    <%= render "shared/icons/plus" %>
+                </a>
             </div>
             <% if @bookings.any? %>
             <div>
-                <%= render @bookings.limit(2) %>
+                <% @bookings.each do |booking| %>
+                <%= render partial: "bookings/booking_bulk", locals: { grouped_booking: booking } %>
+                <% end %>
             </div>
             <% if @bookings.length > 2 %>
             <div class="mt-4 text-gray-500 text-center bg:white">
@@ -26,7 +30,9 @@
         <section class="py-12 md:w-1/2 md:py-0">
             <div class="flex items-center mb-8">
                 <h2 class="font-bold text-3xl">Your pets</h2>
-                <%= link_to "Add pet", new_pet_path, class: "ml-auto px-4 py-2 text-sm font-medium text-white bg-blue-500 rounded-lg hover:bg-blue-600 justify-self-end mt-0" %>
+                <a title="Add a new pet" label="Add a new pet" href="<%= new_pet_path %>" class="inline-block ml-auto h-8 w-8 p-1 text-sm font-medium text-white bg-blue-500 rounded-full hover:bg-blue-600 mt-0">
+                    <%= render "shared/icons/plus" %>
+                </a>
             </div>
             <% if @pets.any? %>
             <div>

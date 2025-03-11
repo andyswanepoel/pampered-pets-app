@@ -16,8 +16,31 @@ class BookingsController < ApplicationController
     @pets = Current.user.pets
   end
 
+
   # GET /bookings/1/edit
   def edit
+  end
+
+
+  def edit_bulk
+    bookings = Booking.includes(:pet)
+      .where(id: params[:bookings])
+      .group_by { |b| [ b.start_date, b.end_date ] }
+      .map do |(start_date, end_date), bookings|
+        { start_date: start_date, end_date: end_date, bookings: bookings }
+      end
+
+    puts bookings.inspect
+    unless bookings.length == 1
+      redirect_to bookings_path, alert: "Something went wrong."
+    end
+
+    @bookings = bookings[0][:bookings]
+    @booking = @bookings[0]
+  end
+
+  def update_bulk
+    redirect_to bookings_path
   end
 
   # POST /bookings or /bookings.json
@@ -39,11 +62,11 @@ class BookingsController < ApplicationController
 
       redirect_to bookings_path, notice: "Booking was successfully created."
 
-    rescue ActiveRecord::Rollback => e
       @pets = Current.user.pets
+      @booking = Booking.new
+    rescue ActiveRecord::Rollback => e
       render :new, status: :unprocessable_entity,  alert: "There was an issue creating your bookings: #{e}"
     rescue StandardError => e
-      @pets = Current.user.pets
       render :new, status: :unprocessable_entity, alert: "There was an unexpected error: #{e.message}"
     end
   end

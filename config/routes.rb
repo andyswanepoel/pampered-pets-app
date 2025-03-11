@@ -1,5 +1,11 @@
 Rails.application.routes.draw do
-  resources :bookings
+  resources :bookings do
+    collection do
+      get "/multiple", to: "bookings#edit_bulk"
+      patch "/multiple", to: "bookings#update_bulk"
+    end
+  end
+
   resources :pets
 
   # Dashboard

@@ -1,0 +1,26 @@
+<% icon_class = case grouped_booking[:booking_status]
+       when "pending" then "bg-gray-700"
+       when "declined" then "bg-red-700"
+       when "accepted" then "bg-green-700"
+       else "bg-gray-700"
+     end %>
+<div class="bg-white rounded-2xl shadow-lg overflow-hidden p-4 mt-8 flex flex-row items-center text-center text-left first:mt-0">
+    <div class="mr-4 h-24 w-24 flex flex-col">
+        <%= render "shared/icons/calendar_#{grouped_booking[:booking_status]}" %>
+        <span class="text-center text-white text-xs font-bold px-2 py-1 rounded-lg mt-1 <%= icon_class %>"><%= grouped_booking[:booking_status].capitalize %></span>
+    </div>
+    <div class="flex flex-col grow ml-4 sm:flex-row sm:items-center sm:ml-0">
+        <div class="grow">
+            <h3 class="text-lg">Booking for <%= list_items grouped_booking[:bookings].map { | booking | booking.pet.name } %></h3>
+            <p class="text-gray-500 text-sm"><strong>Drop off:</strong> <%= short_date grouped_booking[:start_date] %></p>
+            <p class="text-gray-500 text-sm"><strong>Pick up:</strong> <%= short_date grouped_booking[:end_date] %></p>
+        </div>
+        <div class="mt-2 sm:mt-0">
+            <% if grouped_booking[:bookings].length > 1 %>
+            <%= link_to "Edit", multiple_bookings_path(bookings:grouped_booking[:bookings].pluck(:id) ), class: "px-4 py-2 text-sm font-medium text-white bg-blue-500 rounded-lg hover:bg-blue-600 inline-block" %>
+            <% else %>
+            <%= link_to "Edit", edit_booking_path(grouped_booking[:bookings][0].id), class: "px-4 py-2 text-sm font-medium text-white bg-blue-500 rounded-lg hover:bg-blue-600 inline-block" %>
+            <% end %>
+        </div>
+    </div>
+</div>
