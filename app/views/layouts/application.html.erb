@@ -29,7 +29,11 @@
     <header class="bg-white shadow-md px-6 lg:px-12" data-controller="menu">
         <div class="container mx-auto py-4 flex justify-between items-center">
             <div>
+                <%if is_authenticated? %>
+                <%= link_to "PetApp", dashboard_path, class: "text-xl font-bold text-gray-900" %>
+                <%else%>
                 <%= link_to "PetApp", root_path, class: "text-xl font-bold text-gray-900" %>
+                <%end%>
             </div>
 
             <div class="hidden md:flex space-x-4">

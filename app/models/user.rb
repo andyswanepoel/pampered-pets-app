@@ -2,6 +2,8 @@ class User < ApplicationRecord
   has_secure_password
   has_many :sessions, dependent: :destroy
   has_many :pets, dependent: :destroy
+  has_many :bookings, foreign_key: :provider_id
+  has_many :bookings, dependent: :destroy
   has_and_belongs_to_many :roles
   before_create :assign_default_role
 
@@ -11,8 +13,12 @@ class User < ApplicationRecord
     roles.exists?(name: "admin")
   end
 
+  def provider
+    roles.exists?(name: "provider")
+  end
+
   def assign_default_role
-    default_role = Role.find_by(name: "user")
+    default_role = Role.find_by(name: "customer")
     self.roles << default_role if roles.empty?
   end
 

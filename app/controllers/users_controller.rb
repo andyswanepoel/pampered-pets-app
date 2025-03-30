@@ -6,7 +6,7 @@ class UsersController < ApplicationController
   end
 
   def create
-    @user = User.new(user_params)
+    @user = User.new(**user_params, tenant: tenant)
 
     if @user.save
        VerificationMailer.with(user: @user).verify_email.deliver_later

@@ -14,9 +14,7 @@
             </div>
             <% if @bookings.any? %>
             <div>
-                <% @bookings.each do |booking| %>
-                <%= render partial: "bookings/booking_bulk", locals: { grouped_booking: booking } %>
-                <% end %>
+                <%= render @bookings %>
             </div>
             <% if @bookings.length > 2 %>
             <div class="mt-4 text-gray-500 text-center bg:white">
@@ -24,7 +22,7 @@
             </div>
             <% end %>
             <% else %>
-            <p class="text-center my-10">No bookings found.</p>
+            <p class="my-10">No bookings found.</p>
             <% end %>
         </section>
         <section class="py-12 md:w-1/2 md:py-0">

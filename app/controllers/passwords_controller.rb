@@ -6,7 +6,7 @@ class PasswordsController < ApplicationController
   end
 
   def create
-    if user = User.find_by(email_address: params[:email_address])
+    if user = User.find_by(email_address: params[:email_address], tenant: tenant)
       PasswordsMailer.with(user: user).reset.deliver_later
     end
     redirect_to login_path, notice: "Password reset instructions sent."

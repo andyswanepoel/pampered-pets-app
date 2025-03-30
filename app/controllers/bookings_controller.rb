@@ -1,5 +1,7 @@
 class BookingsController < ApplicationController
   before_action :set_booking, only: %i[ show edit update destroy ]
+  before_action :set_pets, only: %i[ new edit ]
+  before_action :set_providers, only: %i[ new edit ]
 
   # GET /bookings or /bookings.json
   def index
@@ -13,7 +15,6 @@ class BookingsController < ApplicationController
   # GET /bookings/new
   def new
     @booking = Booking.new
-    @pets = Current.user.pets
   end
 
 
@@ -21,60 +22,25 @@ class BookingsController < ApplicationController
   def edit
   end
 
-
-  def edit_bulk
-    bookings = Booking.includes(:pet)
-      .where(id: params[:bookings])
-      .group_by { |b| [ b.start_date, b.end_date ] }
-      .map do |(start_date, end_date), bookings|
-        { start_date: start_date, end_date: end_date, bookings: bookings }
-      end
-
-    puts bookings.inspect
-    unless bookings.length == 1
-      redirect_to bookings_path, alert: "Something went wrong."
-    end
-
-    @bookings = bookings[0][:bookings]
-    @booking = @bookings[0]
-  end
-
-  def update_bulk
-    redirect_to bookings_path
-  end
-
   # POST /bookings or /bookings.json
   def create
-    pet_ids = booking_params[:pet_id]
-
-    begin
-      ActiveRecord::Base.transaction do
-        pet_ids.each do |pet_id|
-          booking = Booking.new(pet_id: pet_id, **booking_params.except(:pet_id))
-          unless booking.save
-            puts "Error saving booking: #{booking.errors.full_messages.join(', ')}"
-            raise ActiveRecord::Rollback, booking.errors.full_messages.join(", ") # Pass errors
-          end
-        end
-      end
-
-      BookingMailer.with(user: Current.user, pet_ids: pet_ids, start_date: booking_params[:start_date], end_date: booking_params[:end_date]).pending_booking.deliver_later
-
+    @booking = Current.user.bookings.build(booking_params.except(:pet_id))
+    if @booking.save
+      @booking.pets << Pet.where(id: booking_params[:pet_id]) if booking_params[:pet_id].present?
+      BookingMailer.with(user: Current.user, pet_ids: booking_params[:pet_id], start_date: booking_params[:start_date], end_date: booking_params[:end_date]).pending_booking.deliver_later
       redirect_to bookings_path, notice: "Booking was successfully created."
-
-      @pets = Current.user.pets
-      @booking = Booking.new
-    rescue ActiveRecord::Rollback => e
-      render :new, status: :unprocessable_entity,  alert: "There was an issue creating your bookings: #{e}"
-    rescue StandardError => e
-      render :new, status: :unprocessable_entity, alert: "There was an unexpected error: #{e.message}"
+    else
+      set_pets
+      set_providers
+      render :new, status: :unprocessable_entity
     end
   end
 
   # PATCH/PUT /bookings/1 or /bookings/1.json
   def update
+    @booking.pets = Pet.where(id: booking_params[:pet_id]) if booking_params[:pet_id].present?
     respond_to do |format|
-      if @booking.update(booking_params)
+      if @booking.update(booking_params.except(:pet_id))
         format.html { redirect_to @booking, notice: "Booking was successfully updated." }
         format.json { render :show, status: :ok, location: @booking }
       else
@@ -100,8 +66,16 @@ class BookingsController < ApplicationController
       @booking = Booking.find(params.expect(:id))
     end
 
+    def set_pets
+      @pets = Current.user.pets
+    end
+
+    def set_providers
+      @providers = User.includes(:roles).where(roles: { name: "provider" })
+    end
+
     # Only allow a list of trusted parameters through.
     def booking_params
-      params.require(:booking).permit(:start_date, :end_date, pet_id: [])
+      params.require(:booking).permit(:provider_id, :service_type, :start_date, :end_date, pet_id: [])
     end
 end
