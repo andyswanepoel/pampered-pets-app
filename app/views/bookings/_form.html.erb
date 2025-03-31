@@ -25,7 +25,7 @@
     <%= form.label :provider_id , "Who do you want to book with?" %>
     <%= form.select :provider_id, @providers.map { |provider| ["#{provider.first_name} #{provider.last_name}", provider.id] },
     { prompt: 'Please select a service provider' },
-    class: "form-control", id: "provider_id_select", class: ["block shadow-sm rounded-md border px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-blue-600": @booking.errors[:provider_id].none?, "border-red-400 focus:outline-red-600": @booking.errors[:provider_id].any?}] %>
+    class: "form-control", id: "provider_id_select", class: ["block shadow-sm rounded-md border px-3 py-2 mt-2 w-full bg-white", {"border-gray-400 focus:outline-blue-600": @booking.errors[:provider_id].none?, "border-red-400 focus:outline-red-600": @booking.errors[:provider_id].any?}] %>
 </div>
 
 <div class="my-5">
@@ -33,17 +33,17 @@
     <%= form.select :service_type, 
     Booking.service_types.keys.map {|service_type| [service_type.humanize, service_type]},
     { prompt: 'Please select a service' }, 
-    class:["block shadow-sm rounded-md border px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-blue-600": @booking.errors[:service_type].none?, "border-red-400 focus:outline-red-600": @booking.errors[:service_type].any?}] %>
+    class:["block shadow-sm rounded-md border px-3 py-2 mt-2 w-full bg-white", {"border-gray-400 focus:outline-blue-600": @booking.errors[:service_type].none?, "border-red-400 focus:outline-red-600": @booking.errors[:service_type].any?}] %>
 </div>
 
 <div class="my-5">
     <%= form.label :start_date %>
-    <%= form.date_field :start_date,  min: Date.today, class:["block shadow-sm rounded-md border px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-blue-600": @booking.errors[:start_date].none?, "border-red-400 focus:outline-red-600": @booking.errors[:start_date].any?}] %>
+    <%= form.date_field :start_date,  min: Date.today, class:["block shadow-sm rounded-md border px-3 py-2 mt-2 w-full bg-white", {"border-gray-400 focus:outline-blue-600": @booking.errors[:start_date].none?, "border-red-400 focus:outline-red-600": @booking.errors[:start_date].any?}] %>
 </div>
 
 <div class="my-5">
     <%= form.label :end_date %>
-    <%= form.date_field :end_date, class: ["block shadow-sm rounded-md border px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-blue-600": @booking.errors[:end_date].none?, "border-red-400 focus:outline-red-600": @booking.errors[:end_date].any?}] %>
+    <%= form.date_field :end_date, class: ["block shadow-sm rounded-md border px-3 py-2 mt-2 w-full bg-white", {"border-gray-400 focus:outline-blue-600": @booking.errors[:end_date].none?, "border-red-400 focus:outline-red-600": @booking.errors[:end_date].any?}] %>
 </div>
 
 <div class="inline">

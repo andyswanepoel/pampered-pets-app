@@ -47,8 +47,7 @@ class PetsController < ApplicationController
         render :new
       end
     else
-      flash[:alert] = "Invalid pet details."
-      render :new
+      render :new, alert: "Invalid pet details."
     end
   end
 

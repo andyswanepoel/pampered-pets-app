@@ -1,9 +1,8 @@
 Rails.application.routes.draw do
   resources :bookings do
-    collection do
-      get "/multiple", to: "bookings#edit_bulk"
-      patch "/multiple", to: "bookings#update_bulk"
-    end
+      patch "/accept", to: "bookings#accept"
+      patch "/decline", to: "bookings#decline"
+      patch "/cancel", to: "bookings#cancel"
   end
 
   resources :pets

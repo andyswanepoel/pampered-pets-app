@@ -1,0 +1,43 @@
+<% @approved_bookings = @bookings.where(booking_status: "accepted")%>
+<% @pending_bookings = @bookings.where(booking_status: "pending")%>
+<section class="py-12 px-6 lg:px-12">
+    <div class="container mx-auto">
+        <p class="font-bold text-4xl mb-4">Hey, <%= @user.first_name %>!</p>
+    </div>
+</section>
+<div class="py-0 px-6 lg:px-12">
+    <div class="container mx-auto">
+        <section class="py-8 w-full">
+            <div class="mb-8">
+                <h2 class="font-bold text-3xl">Upcoming bookings</h2>
+            </div>
+            <% if @approved_bookings.any? %>
+            <div>
+                <%= render @approved_bookings.limit(10) %>
+            </div>
+            <% else %>
+            <p class="my-10">No upcoming bookings found.</p>
+            <% end %>
+        </section>
+        <section class="py-8 w-full">
+            <div class="mb-8">
+                <h2 class="font-bold text-3xl">Pending bookings</h2>
+            </div>
+
+
+            <% if @pending_bookings.any? %>
+            <p class="my-10">Please accept or decline these bookings based on your upcoming schedule.</p>
+            <div>
+                <%= render @pending_bookings.limit(10) %>
+            </div>
+            <% else %>
+            <p class="my-10">No pending bookings found.</p>
+            <% end %>
+        </section>
+        <% if @approved_bookings.length > 10 or @pending_bookings.length > 10 %>
+        <div class="mt-4 text-gray-500 text-center bg:white">
+            <%= link_to "See all your bookings", bookings_path, class: "px-4 py-2 text-gray-700 hover:text-gray-900 border-solid border-1 rounded border-gray-400 inline-block" %>
+        </div>
+        <% end %>
+    </div>
+</div>

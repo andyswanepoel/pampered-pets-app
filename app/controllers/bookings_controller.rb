@@ -40,7 +40,7 @@ class BookingsController < ApplicationController
   def update
     @booking.pets = Pet.where(id: booking_params[:pet_id]) if booking_params[:pet_id].present?
     respond_to do |format|
-      if @booking.update(booking_params.except(:pet_id))
+      if @booking.update(**booking_params.except(:pet_id), booking_status: :pending)
         format.html { redirect_to @booking, notice: "Booking was successfully updated." }
         format.json { render :show, status: :ok, location: @booking }
       else
@@ -57,6 +57,39 @@ class BookingsController < ApplicationController
     respond_to do |format|
       format.html { redirect_to bookings_path, status: :see_other, notice: "Booking was successfully destroyed." }
       format.json { head :no_content }
+    end
+  end
+
+  def accept
+    @booking = Booking.find(params.expect(:booking_id))
+    respond_to do |format|
+      if @booking.update(booking_status: :accepted)
+        format.html { redirect_to dashboard_path, notice: "Booking was accepted." }
+      else
+        format.html { redirect_to dashboard_path, alert: "Something went wrong." }
+      end
+    end
+  end
+
+  def decline
+    @booking = Booking.find(params.expect(:booking_id))
+    respond_to do |format|
+      if @booking.update(booking_status: :declined)
+        format.html { redirect_to dashboard_path, notice: "Booking was declined." }
+      else
+        format.html { redirect_to dashboard_path, alert: "Something went wrong." }
+      end
+    end
+  end
+
+  def cancel
+    @booking = Booking.find(params.expect(:booking_id))
+    respond_to do |format|
+      if @booking.update(booking_status: :canceled)
+        format.html { redirect_to dashboard_path, notice: "Booking was canceled." }
+      else
+        format.html { redirect_to dashboard_path, alert: "Something went wrong." }
+      end
     end
   end
 

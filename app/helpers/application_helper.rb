@@ -14,4 +14,12 @@ module ApplicationHelper
   def is_authenticated?
     Current.user.present?
   end
+
+  def is_provider?
+    Current.user.roles.include?(Role.find_by(name: "provider"))
+  end
+
+  def is_customer?
+    Current.user.roles.include?(Role.find_by(name: "customer"))
+  end
 end

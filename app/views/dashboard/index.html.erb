@@ -1,0 +1,8 @@
+<% content_for :title, "Dashboard" %>
+
+<% if is_provider? %>
+<%= render "provider" %>
+<% end %>
+<% if is_customer? %>
+<%= render "customer" %>
+<% end %>

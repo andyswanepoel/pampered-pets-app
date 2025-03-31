@@ -5,7 +5,7 @@
         <%= cat_fields.select :environment, 
             Cat.environments.keys.map  { |environment| [(underscore_to_slash(environment).titleize), environment] }, 
             { prompt: 'Please select an option'},
-            class: "block shadow-sm rounded-md border px-3 py-2 mt-2 w-full border-gray-400 focus:outline-blue-600" %>
+            class: "block shadow-sm rounded-md border px-3 py-2 mt-2 w-full border-gray-400 focus:outline-blue-600 bg-white" %>
     </div>
     <% end %>
 </fieldset>

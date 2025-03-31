@@ -1,2 +1,7 @@
-You can reset your password within the next 15 minutes on this password reset page:
-<%= edit_password_url(@user.password_reset_token) %>
+Thanks for your booking request! Our team will review it and get back to you soon!
+
+Here are the details of your booking request:
+
+Booking for <%= list_items(@pets.map { |pet| pet.name }) %>
+Drop off: <%= long_date @start_date %>
+Pick up: <%= long_date @end_date %>
