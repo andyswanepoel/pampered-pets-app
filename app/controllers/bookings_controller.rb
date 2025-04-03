@@ -1,5 +1,6 @@
 class BookingsController < ApplicationController
   before_action :set_booking, only: %i[ show edit update destroy ]
+  before_action :set_booking_for_provider, only: %i[ accept decline cancel ]
   before_action :set_pets, only: %i[ new edit ]
   before_action :set_providers, only: %i[ new edit ]
 
@@ -27,7 +28,7 @@ class BookingsController < ApplicationController
     @booking = Current.user.bookings.build(booking_params.except(:pet_id))
     if @booking.save
       @booking.pets << Pet.where(id: booking_params[:pet_id]) if booking_params[:pet_id].present?
-      BookingMailer.with(user: Current.user, pet_ids: booking_params[:pet_id], start_date: booking_params[:start_date], end_date: booking_params[:end_date]).pending_booking.deliver_later
+      BookingMailer.with(user: Current.user, booking: @booking).pending_booking.deliver_later
       redirect_to bookings_path, notice: "Booking was successfully created."
     else
       set_pets
@@ -61,9 +62,9 @@ class BookingsController < ApplicationController
   end
 
   def accept
-    @booking = Booking.find(params.expect(:booking_id))
     respond_to do |format|
       if @booking.update(booking_status: :accepted)
+        BookingMailer.with(user: Current.user, booking: @booking).accepted_booking.deliver_later
         format.html { redirect_to dashboard_path, notice: "Booking was accepted." }
       else
         format.html { redirect_to dashboard_path, alert: "Something went wrong." }
@@ -75,6 +76,7 @@ class BookingsController < ApplicationController
     @booking = Booking.find(params.expect(:booking_id))
     respond_to do |format|
       if @booking.update(booking_status: :declined)
+        BookingMailer.with(user: Current.user, booking: @booking).declined_booking.deliver_later
         format.html { redirect_to dashboard_path, notice: "Booking was declined." }
       else
         format.html { redirect_to dashboard_path, alert: "Something went wrong." }
@@ -86,6 +88,7 @@ class BookingsController < ApplicationController
     @booking = Booking.find(params.expect(:booking_id))
     respond_to do |format|
       if @booking.update(booking_status: :canceled)
+        BookingMailer.with(user: Current.user, booking: @booking).canceled_booking.deliver_later
         format.html { redirect_to dashboard_path, notice: "Booking was canceled." }
       else
         format.html { redirect_to dashboard_path, alert: "Something went wrong." }
@@ -97,6 +100,10 @@ class BookingsController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_booking
       @booking = Booking.find(params.expect(:id))
+    end
+
+    def set_booking_for_provider
+      @booking = Booking.find(params.expect(:booking_id))
     end
 
     def set_pets

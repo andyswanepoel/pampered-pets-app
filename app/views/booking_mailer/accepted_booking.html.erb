@@ -1,11 +1,8 @@
 <p>
-    Thanks for your booking request! Our team will review it and get back to you soon!
+    We've accepted your booking for <%= list_items(@booking.pets.map { |pet| pet.name }) %> on <%= long_date @booking.start_date %>.
 </p>
 <p>
-    Here are the details of your booking request:
-</p>
-<p>
-    <strong>Booking for <%= list_items(@booking.pets.map { |pet| pet.name }) %></strong>
+    Here are the details of your booking:
 </p>
 <p>
     <strong>Service type:</strong> <%= @booking.service_type.capitalize %>
@@ -13,7 +10,7 @@
 <p>
     <strong>Drop off:</strong> <%= long_date @booking.start_date %>
 </p>
-<%if @booking.end_date %>
+<% if @booking.end_date %>
 <p>
     <strong>Pick up:</strong> <%= long_date @booking.end_date %>
 </p>

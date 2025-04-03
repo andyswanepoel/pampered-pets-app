@@ -1,12 +1,25 @@
 class BookingMailer < ApplicationMailer
+  before_action :set_booking_info
+
   def pending_booking
-    @user = params[:user]
-    @pets = Pet.where(id: params[:pet_ids])
-    @start_date = Date.parse params[:start_date]
-    @end_date = Date.parse params[:end_date]
     mail subject: "We've received your booking request!", to: @user.email_address
   end
 
-  def approved_booking
+  def accepted_booking
+    mail subject: "Your booking has been accepted!", to: @user.email_address
+  end
+
+  def declined_booking
+    mail subject: "We're sorry, your booking has been declined.", to: @user.email_address
+  end
+
+  def canceled_booking
+    mail subject: "We're sorry, we've had to cancel your booking.", to: @user.email_address
+  end
+
+  private
+  def set_booking_info
+    @user = params[:user]
+    @booking = params[:booking]
   end
 end

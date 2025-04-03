@@ -2,6 +2,9 @@ Thanks for your booking request! Our team will review it and get back to you soo
 
 Here are the details of your booking request:
 
-Booking for <%= list_items(@pets.map { |pet| pet.name }) %>
-Drop off: <%= long_date @start_date %>
-Pick up: <%= long_date @end_date %>
+Booking for <%= list_items(@booking.pets.map { |pet| pet.name }) %>
+Service type: <%= @booking.service_type.capitalize %>
+Drop off: <%= long_date @booking.start_date %>
+<% if @booking.end_date %>
+Pick up: <%= long_date @booking.end_date %>
+<% end %>

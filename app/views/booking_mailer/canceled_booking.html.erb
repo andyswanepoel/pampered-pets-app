@@ -1,0 +1,20 @@
+<p>
+    We're very sorry, but we've had to cancel your booking for <%= list_items(@bookings.pets.map { |pet| pet.name }) %> on <%= long_date @booking.start_date %>.
+</p>
+<p>
+    Here are the details of the booking:
+</p>
+<p>
+    <strong>Service type:</strong> <%= @booking.service_type.capitalize %>
+</p>
+<p>
+    <strong>Drop off:</strong> <%= long_date @bookings.start_date %>
+</p>
+<% if @bookings.end_date %>
+<p>
+    <strong>Pick up:</strong> <%= long_date @bookings.end_date %>
+</p>
+<% end %>
+<p>
+    We apologize for any inconvenience this may have caused. Please reach out to us if you have any questions.
+</p>

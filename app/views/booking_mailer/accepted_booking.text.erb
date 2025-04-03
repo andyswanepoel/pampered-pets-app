@@ -1,0 +1,13 @@
+We've accepted your booking for <%= list_items(@booking.pets.map { |pet| pet.name }) %> on <%= long_date @booking.start_date %>.
+
+Here are the details of your booking:
+
+Service type: <%= @booking.service_type.capitalize %>
+
+<% puts @booking %>
+<% puts @booking.start_date %>
+Drop off: <%= long_date @booking.start_date %>
+
+<% if @booking.end_date %>
+Pick up: <%= long_date @booking.end_date %>
+<% end %>
