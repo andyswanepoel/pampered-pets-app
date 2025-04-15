@@ -28,19 +28,15 @@ test:
     pool: 5
     timeout: 5000
 
-default: &default
-  adapter: postgresql
-  encoding: unicode
-  pool: 5
-  username: <%= ENV["DATABASE_USERNAME"] %>
-  password: <%= ENV["DATABASE_PASSWORD"] %>
-  host: <%= ENV["DATABASE_HOST"] %>
-
 production:
   <<: *default
 
   defaults: &production_defaults
     <<: *default
+    username: <%= ENV["DATABASE_USERNAME"] %>
+    password: <%= ENV["DATABASE_PASSWORD"] %>
+    host: <%= ENV["DATABASE_HOST"] %>
+    port: <%= ENV["DATABASE_PORT"] %>
     pool: 10
     timeout: 5000
 
@@ -51,16 +47,4 @@ production:
   queue:
     <<: *production_defaults
     database: <%= pampered_pets_app_queue_ENV["APP_ENV"] %>
-    migrations_paths: db/queue_migrate
-# Store production database in the storage/ directory, which by default
-# is mounted as a persistent Docker volume in config/deploy.yml.
-production:
-  primary: &primary_production
-    <<: *default
-    database: pampered_pets_app_db
-    username: app
-    password: <%= ENV["APP_DATABASE_PASSWORD"] %>
-  cache:
-    <<: *primary_production
-    database: pampered_pets_app_db_queue
     migrations_paths: db/queue_migrate
