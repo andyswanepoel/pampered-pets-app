@@ -42,9 +42,9 @@ production:
 
   primary:
     <<: *production_defaults
-    database: <%= pampered_pets_app_ENV["APP_ENV"] %>
+    database: pampered_pets_app_<%= ENV["APP_ENV"] %>
 
   queue:
     <<: *production_defaults
-    database: <%= pampered_pets_app_queue_ENV["APP_ENV"] %>
+    database: pampered_pets_app_queue_<%= ENV["APP_ENV"] %>
     migrations_paths: db/queue_migrate
