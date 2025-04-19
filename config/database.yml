@@ -28,25 +28,23 @@ test:
     pool: 5
     timeout: 5000
 
-# Store production database in the storage/ directory, which by default
-# is mounted as a persistent Docker volume in config/deploy.yml.
 production:
+  <<: *default
+
+  defaults: &production_defaults
+    <<: *default
+    username: <%= ENV["DATABASE_USERNAME"] %>
+    password: <%= ENV["DATABASE_PASSWORD"] %>
+    host: <%= ENV["DATABASE_HOST"] %>
+    port: <%= ENV["DATABASE_PORT"] %>
+    pool: 10
+    timeout: 5000
+
   primary:
-    <<: *default
-    database: storage/production.sqlite3
-    url: <%= ENV["DATABASE_URL"] %>
-  cache:
-    <<: *default
-    database: storage/production_cache.sqlite3
-    migrations_paths: db/cache_migrate
-    url: <%= URI.parse(ENV["DATABASE_URL"]).tap { |url| url.path += "_cache" } if ENV["DATABASE_URL"] %>
+    <<: *production_defaults
+    database: pampered_pets_app_<%= ENV["APP_ENV"] %>
+
   queue:
-    <<: *default
-    database: storage/production_queue.sqlite3
+    <<: *production_defaults
+    database: pampered_pets_app_queue_<%= ENV["APP_ENV"] %>
     migrations_paths: db/queue_migrate
-    url: <%= URI.parse(ENV["DATABASE_URL"]).tap { |url| url.path += "_queue" } if ENV["DATABASE_URL"] %>
-  cable:
-    <<: *default
-    database: storage/production_cable.sqlite3
-    migrations_paths: db/cable_migrate
-    url: <%= URI.parse(ENV["DATABASE_URL"]).tap { |url| url.path += "_cable" } if ENV["DATABASE_URL"] %>

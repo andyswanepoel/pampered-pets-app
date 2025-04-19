@@ -1,26 +1,23 @@
-# fly.toml app configuration file generated for pampered-pets-app on 2025-02-26T13:11:45-05:00
+# fly.toml app configuration file generated for pampered-pets-app-staging on 2025-04-13T11:54:33-04:00
 #
 # See https://fly.io/docs/reference/configuration/ for information about how to use this file.
 #
 
-app = 'pampered-pets-app'
+app = 'pampered-pets-app-staging'
 primary_region = 'yyz'
 console_command = '/rails/bin/rails console'
 
 [build]
 
+[deploy]
+  release_command = './bin/rails db:prepare'
+
 [env]
   PORT = '8080'
+  APP_ENV = 'staging'
 
 [processes]
-  app = "./bin/rake litestream:run ./bin/rails server"
-
-[[mounts]]
-  source = 'data'
-  destination = '/data'
-  auto_extend_size_threshold = 80
-  auto_extend_size_increment = '1GB'
-  auto_extend_size_limit = '10GB'
+  app = './bin/rake litestream:run ./bin/rails server'
 
 [http_service]
   internal_port = 8080
