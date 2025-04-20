@@ -48,3 +48,8 @@ production:
     <<: *production_defaults
     database: pampered_pets_app_queue_<%= ENV["APP_ENV"] %>
     migrations_paths: db/queue_migrate
+
+  cable:
+    <<: *production_defaults
+    database: pampered_pets_app_cable_<%= ENV["APP_ENV"] %>
+    migrations_paths: db/cable_migrate
