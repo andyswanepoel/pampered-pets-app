@@ -36,19 +36,19 @@ production:
 
   primary:
     <<: *production_defaults
-    url: postgres://<%= ENV['DATABASE_USERNAME'] %>:<%= ENV['DATABASE_PASSWORD'] %>@<%= ENV['DATABASE_HOST'] %>:<%= ENV['DATABASE_PORT'] %>/pampered_pets_app_<%= ENV['APP_ENV'] %>?sslmode=disable
+    url: <%= ENV['DATABASE_URL'] %>
 
   queue:
     <<: *production_defaults
-    url: postgres://<%= ENV['DATABASE_USERNAME'] %>:<%= ENV['DATABASE_PASSWORD'] %>@<%= ENV['DATABASE_HOST'] %>:<%= ENV['DATABASE_PORT'] %>/pampered_pets_app_queue_<%= ENV['APP_ENV'] %>?sslmode=disable
+    url: <%= ENV['QUEUE_DATABASE_URL'] %>
     migrations_paths: db/queue_migrate
 
   cable:
     <<: *production_defaults
-    url: postgres://<%= ENV['DATABASE_USERNAME'] %>:<%= ENV['DATABASE_PASSWORD'] %>@<%= ENV['DATABASE_HOST'] %>:<%= ENV['DATABASE_PORT'] %>/pampered_pets_app_cable_<%= ENV['APP_ENV'] %>?sslmode=disable
+    url: <%= ENV['CABLE_DATABASE_URL'] %>
     migrations_paths: db/cable_migrate
 
   cache:
     <<: *production_defaults
-    url: postgres://<%= ENV['DATABASE_USERNAME'] %>:<%= ENV['DATABASE_PASSWORD'] %>@<%= ENV['DATABASE_HOST'] %>:<%= ENV['DATABASE_PORT'] %>/pampered_pets_app_cache_<%= ENV['APP_ENV'] %>?sslmode=disable
+    url: <%= ENV['CACHE_DATABASE_URL'] %>
     migrations_paths: db/cache_migrate
