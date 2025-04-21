@@ -1,7 +1,7 @@
 version: '3.8'
 
 services:
-  primary_db:
+  db:
     image: postgres:15
     container_name: postgres_primary
     ports:
@@ -15,23 +15,8 @@ services:
     networks:
       - backend
 
-  queue_db:
-    image: postgres:15
-    container_name: postgres_queue
-    ports:
-      - "5433:5432"
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: password
-      POSTGRES_DB: pampered_pets_development_queue
-    volumes:
-      - postgres_queue_data:/var/lib/postgresql/data
-    networks:
-      - backend
-
 volumes:
   postgres_primary_data:
-  postgres_queue_data:
 
 networks:
   backend:
