@@ -29,26 +29,32 @@ test:
     timeout: 5000
 
 production:
+  <<: *default
+
   defaults: &production_defaults
     <<: *default
+    username: <%= ENV["DATABASE_USERNAME"] %>
+    password: <%= ENV["DATABASE_PASSWORD"] %>
+    host: <%= ENV["DATABASE_HOST"] %>
+    port: <%= ENV["DATABASE_PORT"] %>
     pool: 10
     timeout: 5000
 
   primary:
     <<: *production_defaults
-    url: <%= ENV['DATABASE_URL'] %>
+    database: pampered_pets_app_<%= ENV["APP_ENV"] %>
 
   queue:
     <<: *production_defaults
-    url: <%= ENV['QUEUE_DATABASE_URL'] %>
+    database: pampered_pets_app_queue_<%= ENV["APP_ENV"] %>
     migrations_paths: db/queue_migrate
 
   cable:
     <<: *production_defaults
-    url: <%= ENV['CABLE_DATABASE_URL'] %>
+    database: pampered_pets_app_cable_<%= ENV["APP_ENV"] %>
     migrations_paths: db/cable_migrate
 
   cache:
     <<: *production_defaults
-    url: <%= ENV['CACHE_DATABASE_URL'] %>
+    database: pampered_pets_app_cache_<%= ENV["APP_ENV"] %>
     migrations_paths: db/cache_migrate
