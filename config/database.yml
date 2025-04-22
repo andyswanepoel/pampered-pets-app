@@ -3,13 +3,24 @@ default: &default
   timeout: 5000
 
 development:
-  primary:
+  defaults: &development_defaults
     <<: *default
-    url: postgres://<%= ENV['DATABASE_USERNAME'] %>:<%= ENV['DATABASE_PASSWORD'] %>@<%= ENV['DATABASE_HOST'] %>:<%= ENV['DATABASE_PORT'] %>/pampered_pets_app_<%= ENV['APP_ENV'] %>
+    adapter: postgresql
+    encoding: unicode
+    username: <%= ENV["DATABASE_USERNAME"] %>
+    password: <%= ENV["DATABASE_PASSWORD"] %>
+    host: <%= ENV["DATABASE_HOST"] %>
+    port: <%= ENV["DATABASE_PORT"] %>
+    pool: 10
+    timeout: 5000
+
+  primary:
+    <<: *development_defaults
+    database: pampered_pets_app_<%= ENV["APP_ENV"] %>
 
   queue:
-    <<: *default
-    url: postgres://<%= ENV['DATABASE_USERNAME'] %>:<%= ENV['DATABASE_PASSWORD'] %>@<%= ENV['DATABASE_HOST'] %>:<%= ENV['DATABASE_PORT'] %>/pampered_pets_app_queue_<%= ENV['APP_ENV'] %>
+    <<: *development_defaults
+    database: pampered_pets_app_queue_<%= ENV["APP_ENV"] %>
     migrations_paths: db/queue_migrate
 
 # Warning: The database defined as "test" will be erased and
@@ -29,10 +40,10 @@ test:
     timeout: 5000
 
 production:
-  <<: *default
-
   defaults: &production_defaults
     <<: *default
+    adapter: postgresql
+    encoding: unicode
     username: <%= ENV["DATABASE_USERNAME"] %>
     password: <%= ENV["DATABASE_PASSWORD"] %>
     host: <%= ENV["DATABASE_HOST"] %>
