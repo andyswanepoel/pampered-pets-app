@@ -39,6 +39,7 @@ production:
     port: <%= ENV["DATABASE_PORT"] %>
     pool: 10
     timeout: 5000
+    sslmode: disable
 
   primary:
     <<: *production_defaults
